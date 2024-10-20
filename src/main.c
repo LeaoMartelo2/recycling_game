@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     }
 
     /* 16:9 res */
-    InitWindow(16 * WINDOW_SIZE_FACTOR, 9 * WINDOW_SIZE_FACTOR, "Game");
+    InitWindow(16 * WINDOW_SIZE_FACTOR, 9 * WINDOW_SIZE_FACTOR, "Recycling Game");
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
