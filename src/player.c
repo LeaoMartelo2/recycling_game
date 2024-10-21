@@ -42,22 +42,30 @@ void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D
 
     if (IsKeyDown(KEY_W)) {
         movement_key_pressed = true;
-        player->position.y -= player->speed;
+        if (player->position.y - 0.1f > 347.5f) {
+            player->position.y -= player->speed;
+        }
     }
 
     if (IsKeyDown(KEY_A)) {
         movement_key_pressed = true;
-        player->position.x -= player->speed;
+        if (player->position.x - 0.1 > 300.0f) {
+            player->position.x -= player->speed;
+        }
     }
 
     if (IsKeyDown(KEY_S)) {
         movement_key_pressed = true;
-        player->position.y += player->speed;
+        if (player->position.y + 0.1 < 1720.0f) {
+            player->position.y += player->speed;
+        }
     }
 
     if (IsKeyDown(KEY_D)) {
         movement_key_pressed = true;
-        player->position.x += player->speed;
+        if (player->position.x + 0.1 < 900.0f) {
+            player->position.x += player->speed;
+        }
     }
 
     if (movement_key_pressed) {
