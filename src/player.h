@@ -16,6 +16,7 @@ typedef struct Player {
         float frame_time;
         float scale;
         float angle;
+        float speed;
 
 } Player;
 
@@ -23,7 +24,8 @@ Player init_player(const char *texture_path,
                    int total_frames,
                    Vector2 position,
                    float scale,
-                   float frame_time);
+                   float frame_time,
+                   float speed);
 
 void update_player(Player *player, float delta_time, Vector2 mouse_pos);
 

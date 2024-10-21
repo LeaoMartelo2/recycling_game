@@ -20,8 +20,9 @@ int main(int argc, char **argv) {
     Player player = init_player("src/assets/sprites/player/sprite_sheet.png",                 // sprite
                                 5,                                                            // frame count
                                 (Vector2){GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f}, // starting pos
-                                0.5f,                                                         // scale
-                                0.15f);                                                       // frame time
+                                0.25f,                                                        // scale
+                                0.15f,                                                        // frame time
+                                10.0f);                                                       // speed
 
     SetTargetFPS(60);
 

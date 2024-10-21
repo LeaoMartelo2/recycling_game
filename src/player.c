@@ -2,7 +2,7 @@
 #include <math.h>
 #include <raylib.h>
 
-Player init_player(const char *texture_path, int total_frames, Vector2 position, float scale, float frame_time) {
+Player init_player(const char *texture_path, int total_frames, Vector2 position, float scale, float frame_time, float speed) {
 
     Player player;
     player.texture = LoadTexture(texture_path);
@@ -15,6 +15,7 @@ Player init_player(const char *texture_path, int total_frames, Vector2 position,
     player.frame_counter = 0.0f;
     player.frame_time = frame_time;
     player.scale = scale;
+    player.speed = speed;
 
     return player;
 };
@@ -39,18 +40,22 @@ void update_player(Player *player, float delta_time, Vector2 mouse_pos) {
 
     if (IsKeyDown(KEY_W)) {
         movement_key_pressed = true;
+        player->position.y -= player->speed;
     }
 
     if (IsKeyDown(KEY_A)) {
         movement_key_pressed = true;
+        player->position.x -= player->speed;
     }
 
     if (IsKeyDown(KEY_S)) {
         movement_key_pressed = true;
+        player->position.y += player->speed;
     }
 
     if (IsKeyDown(KEY_D)) {
         movement_key_pressed = true;
+        player->position.x += player->speed;
     }
 
     if (movement_key_pressed) {
