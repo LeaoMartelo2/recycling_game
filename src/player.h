@@ -27,7 +27,7 @@ Player init_player(const char *texture_path,
                    float frame_time,
                    float speed);
 
-void update_player(Player *player, float delta_time, Vector2 mouse_pos);
+void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D *camera);
 
 void animate_player(Player *player, float delta_time);
 

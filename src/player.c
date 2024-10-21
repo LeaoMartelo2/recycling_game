@@ -33,7 +33,7 @@ void animate_player(Player *player, float delta_time) {
     }
 }
 
-void update_player(Player *player, float delta_time, Vector2 mouse_pos) {
+void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D *camera) {
     bool movement_key_pressed = false;
 
     player->angle = atan2(mouse_pos.y - player->position.y, mouse_pos.x - player->position.x) * (180.0f / PI);
@@ -66,6 +66,8 @@ void update_player(Player *player, float delta_time, Vector2 mouse_pos) {
         player->current_frame = 0;
         player->frame_counter = 0.0f;
     }
+
+    camera->target = player->position;
 }
 
 void draw_player(Player player) {
