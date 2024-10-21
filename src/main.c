@@ -52,6 +52,8 @@ int main(int argc, char **argv) {
         {
             ClearBackground(BLACK);
 
+            BeginMode2D(camera);
+
             DrawTextureEx(background,
                           (Vector2){25, 0}, // pos
                           0,                // rotation

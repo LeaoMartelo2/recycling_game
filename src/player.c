@@ -36,7 +36,9 @@ void animate_player(Player *player, float delta_time) {
 void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D *camera) {
     bool movement_key_pressed = false;
 
-    player->angle = atan2(mouse_pos.y - player->position.y, mouse_pos.x - player->position.x) * (180.0f / PI);
+    player->angle = atan2((GetScreenToWorld2D(mouse_pos, *camera).y) - player->position.y,
+                          (GetScreenToWorld2D(mouse_pos, *camera).x) - player->position.x) *
+                    (180.0f / PI);
 
     if (IsKeyDown(KEY_W)) {
         movement_key_pressed = true;
@@ -67,7 +69,8 @@ void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D
         player->frame_counter = 0.0f;
     }
 
-    camera->target = player->position;
+    camera->target.x = GetScreenWidth() / 2.0f;
+    camera->target.y = player->position.y;
 }
 
 void draw_player(Player player) {
