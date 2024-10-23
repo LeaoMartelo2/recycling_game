@@ -16,6 +16,7 @@ Player init_player(const char *texture_path, int total_frames, Vector2 position,
     player.frame_time = frame_time;
     player.scale = scale;
     player.speed = speed;
+    player.current_trash_type = TRASH_BLUE;
 
     return player;
 };
@@ -39,6 +40,10 @@ void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D
     player->angle = atan2((GetScreenToWorld2D(mouse_pos, *camera).y) - player->position.y,
                           (GetScreenToWorld2D(mouse_pos, *camera).x) - player->position.x) *
                     (180.0f / PI);
+
+    if (IsKeyPressed(KEY_SPACE)) {
+        player->current_trash_type = (player->current_trash_type + 1) % TRASH_TOTAL;
+    }
 
     if (IsKeyDown(KEY_W)) {
         movement_key_pressed = true;

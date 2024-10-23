@@ -3,6 +3,14 @@
 
 #include <raylib.h>
 
+typedef enum {
+    TRASH_BLUE,
+    TRASH_GREEN,
+    TRASH_RED,
+    TRASH_YELLOW,
+    TRASH_TOTAL,
+} TrashType;
+
 typedef struct Player {
 
         Texture2D texture;
@@ -17,6 +25,7 @@ typedef struct Player {
         float scale;
         float angle;
         float speed;
+        TrashType current_trash_type;
 
 } Player;
 
