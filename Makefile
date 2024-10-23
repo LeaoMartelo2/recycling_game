@@ -6,5 +6,5 @@ FLAGS = -Wall -Wextra -O2
 
 
 update:
-	${CC} src/main.c src/player.c ${RAY_FLAGS} ${FLAGS} -o main
+	${CC} src/main.c src/player.c src/trash.c ${RAY_FLAGS} ${FLAGS} -o main
 	./main -debug

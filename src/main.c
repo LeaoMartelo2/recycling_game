@@ -1,5 +1,5 @@
 #include "player.h"
-#include <math.h>
+#include "trash.h"
 #include <raylib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,60 +10,6 @@
 
 float screen_width;
 float screen_height;
-
-typedef struct Trash {
-        Vector2 position;
-        Vector2 velocity;
-        float radius;
-        float life_time;
-        Texture texture;
-} Trash;
-
-Vector2 calculate_direction(Vector2 from, Vector2 to) {
-    Vector2 direction = {to.x - from.x, to.y - from.y};
-
-    float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
-    direction.x /= length;
-    direction.y /= length;
-
-    return direction;
-}
-
-Trash init_trash(Vector2 position, Vector2 target, float speed, Texture2D texture) {
-    Trash trash;
-    trash.position = position;
-    trash.radius = 0.25f;
-    Vector2 direction = calculate_direction(position, target);
-    trash.velocity = (Vector2){direction.x * speed, direction.y * speed};
-    trash.life_time = 0.0f;
-    trash.texture = texture;
-
-    return trash;
-}
-
-void update_trash(Trash trash_array[], int *trash_count, float delta_time) {
-
-    for (int i = 0; i < *trash_count; i++) {
-        trash_array[i].position.x += trash_array[i].velocity.x * delta_time;
-        trash_array[i].position.y += trash_array[i].velocity.y * delta_time;
-        trash_array[i].life_time += delta_time;
-
-        if (trash_array[i].life_time >= 5.0f) {
-            for (int j = i; j < *trash_count - 1; j++) {
-                trash_array[j] = trash_array[j + 1];
-            }
-
-            (*trash_count)--;
-            i--;
-        }
-    }
-}
-
-void DrawTrash(Trash trash_array[], int trash_count) {
-    for (int i = 0; i < trash_count; i++) {
-        DrawTextureV(trash_array[i].texture, trash_array[i].position, WHITE);
-    }
-}
 
 int main(int argc, char **argv) {
 
@@ -118,9 +64,14 @@ int main(int argc, char **argv) {
 
         update_player(&player, delta_time, mouse_pos, &camera);
 
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        handle_global_trash_count();
+
+        Vector2 player_world_pos = GetScreenToWorld2D(player.position, camera);
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && player.current_trash_type != TRASH_TOTAL) {
             if (trash_count < MAX_TRASH) {
                 Texture2D trash_texture = {0};
+                Vector2 target_world_pos = GetScreenToWorld2D(mouse_pos, camera);
 
                 switch (player.current_trash_type) {
 
@@ -145,14 +96,19 @@ int main(int argc, char **argv) {
                 }
 
                 trash_array[trash_count] =
-                    init_trash(GetScreenToWorld2D(player.position, camera),
-                               GetScreenToWorld2D(mouse_pos, camera),
-                               trash_speed, trash_texture);
+                    init_trash(player_world_pos,
+                               target_world_pos,
+                               trash_speed,
+                               trash_texture,
+                               player.current_trash_type,
+                               0.15f);
+
                 trash_count++;
+                /*global_trash_count++;*/
             }
         }
 
-        update_trash(trash_array, &trash_count, delta_time);
+        update_trash(trash_array, &trash_count, delta_time, camera);
 
         BeginDrawing();
         {
@@ -167,7 +123,7 @@ int main(int argc, char **argv) {
                           WHITE);           // tint
 
             draw_player(player);
-            DrawTrash(trash_array, trash_count);
+            draw_trash(trash_array, trash_count, camera);
 
             /*DrawRectangleV(player.position, (Vector2){50, 50}, RED);*/
 
