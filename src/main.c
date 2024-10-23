@@ -91,9 +91,9 @@ int main(int argc, char **argv) {
     float trash_speed = 200.0f;
 
     Player player = init_player("src/assets/sprites/player/sprite_sheet.png", // sprite
-                                5,                                            // frame count
+                                1,                                            // frame count
                                 (Vector2){600.0f, 337.5f},                    // starting pos
-                                0.25f,                                        // scale
+                                1.0f,                                         // scale
                                 0.15f,                                        // frame time
                                 10.0f);                                       // speed
 
