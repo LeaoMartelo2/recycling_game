@@ -4,6 +4,7 @@
 #include <raylib.h>
 
 typedef enum {
+    TRASH_NONE,
     TRASH_BLUE,
     TRASH_GREEN,
     TRASH_RED,

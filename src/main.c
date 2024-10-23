@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     Trash trash_array[MAX_TRASH];
     int trash_count = 0;
-    float trash_speed = 200.0f;
+    float trash_speed = 500.0f;
 
     Player player = init_player("src/assets/sprites/player/sprite_sheet.png", // sprite
                                 5,                                            // frame count
@@ -71,24 +71,28 @@ int main(int argc, char **argv) {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && player.current_trash_type != TRASH_TOTAL) {
             if (trash_count < MAX_TRASH) {
                 Texture2D trash_texture = {0};
-                Vector2 target_world_pos = GetScreenToWorld2D(mouse_pos, camera);
+                TrashTag trash_tag;
 
                 switch (player.current_trash_type) {
 
                 case TRASH_BLUE:
                     trash_texture = blue_trash;
+                    trash_tag = TRASH_TAG_BLUE;
                     break;
 
                 case TRASH_GREEN:
                     trash_texture = green_trash;
+                    trash_tag = TRASH_TAG_GREEN;
                     break;
 
                 case TRASH_RED:
                     trash_texture = red_trash;
+                    trash_tag = TRASH_TAG_RED;
                     break;
 
                 case TRASH_YELLOW:
                     trash_texture = yellow_trash;
+                    trash_tag = TRASH_TAG_YELLOW;
                     break;
 
                 case TRASH_TOTAL:
@@ -96,19 +100,20 @@ int main(int argc, char **argv) {
                 }
 
                 trash_array[trash_count] =
-                    init_trash(player_world_pos,
-                               target_world_pos,
-                               trash_speed,
-                               trash_texture,
-                               player.current_trash_type,
-                               0.15f);
+                    init_trash(player_world_pos,                      // pos
+                               GetScreenToWorld2D(mouse_pos, camera), // target
+                               trash_speed,                           // speed
+                               trash_texture,                         // texture
+                               TRASH_TAG_BLUE,                        // tag
+                               0.15f,                                 // scale
+                               camera);                               // camera
 
                 trash_count++;
                 /*global_trash_count++;*/
             }
         }
 
-        update_trash(trash_array, &trash_count, delta_time, camera);
+        update_trash(trash_array, &trash_count, delta_time);
 
         BeginDrawing();
         {
@@ -129,10 +134,22 @@ int main(int argc, char **argv) {
 
             EndMode2D();
             if (debug_mode) {
+
+                int font_size = 20;
+                Color debug_color = WHITE;
+
                 DrawFPS(2, 2);
 
-                DrawText(TextFormat("X: %f,\nY: %f", player.position.x, player.position.y),
-                         5, 30, 30, RED);
+                DrawText(TextFormat("Player:\nX: %f\nY: %f", player.position.x, player.position.y),
+                         30, 30, font_size, debug_color);
+
+                DrawText(TextFormat("mouse position:\nX: %f\nY: %f", mouse_pos.x, mouse_pos.y),
+                         30, 100, font_size, debug_color);
+
+                Vector2 mouse_worldpos = GetScreenToWorld2D(mouse_pos, camera);
+
+                DrawText(TextFormat("mouse world_pos:\nX: %f\nY: %f", mouse_worldpos.x, mouse_worldpos.y),
+                         30, 170, font_size, debug_color);
             }
         }
         EndDrawing();

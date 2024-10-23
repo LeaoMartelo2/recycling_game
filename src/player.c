@@ -16,7 +16,7 @@ Player init_player(const char *texture_path, int total_frames, Vector2 position,
     player.frame_time = frame_time;
     player.scale = scale;
     player.speed = speed;
-    player.current_trash_type = TRASH_BLUE;
+    player.current_trash_type = TRASH_NONE;
 
     return player;
 };
