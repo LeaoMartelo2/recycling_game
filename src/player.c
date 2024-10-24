@@ -109,7 +109,5 @@ void draw_player(Player player) {
             player.origin.x * player.scale,
             player.origin.y * player.scale},
         player.angle,
-        WHITE
-
-    );
+        WHITE);
 }

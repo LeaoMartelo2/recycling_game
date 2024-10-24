@@ -16,15 +16,15 @@ typedef struct Trash {
         Vector2 position;
         Vector2 velocity;
         float scale;
+        float speed;
         float life_time;
         Texture texture;
         TrashTag tag;
-        Rectangle bounding_box;
+        Rectangle target_rectangle;
 } Trash;
 
 Trash init_trash(Vector2 position,
                  Vector2 target,
-                 float speed,
                  Texture2D texture,
                  TrashTag tag,
                  float scale,

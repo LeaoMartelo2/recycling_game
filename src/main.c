@@ -31,10 +31,12 @@ int main(int argc, char **argv) {
     Texture2D green_trash = LoadTexture("src/assets/sprites/icons/green.png");
     Texture2D red_trash = LoadTexture("src/assets/sprites/icons/red.png");
     Texture2D yellow_trash = LoadTexture("src/assets/sprites/icons/yellow.png");
+    Texture2D no_texture;
 
     Trash trash_array[MAX_TRASH];
     int trash_count = 0;
-    float trash_speed = 500.0f;
+
+    Rectangle red_trash_can = (Rectangle){200, 200, 50, 50};
 
     Player player = init_player("src/assets/sprites/player/sprite_sheet.png", // sprite
                                 5,                                            // frame count
@@ -53,9 +55,6 @@ int main(int argc, char **argv) {
 
     SetTargetFPS(60);
 
-    Vector2 world_pos = GetScreenToWorld2D(player.position, camera);
-    printf("%f %f \n", world_pos.x, world_pos.y);
-
     while (!WindowShouldClose()) {
 
         float delta_time = GetFrameTime();
@@ -71,7 +70,7 @@ int main(int argc, char **argv) {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && player.current_trash_type != TRASH_TOTAL) {
             if (trash_count < MAX_TRASH) {
                 Texture2D trash_texture = {0};
-                TrashTag trash_tag;
+                TrashTag trash_tag = TRASH_TAG_NONE;
 
                 switch (player.current_trash_type) {
 
@@ -95,16 +94,18 @@ int main(int argc, char **argv) {
                     trash_tag = TRASH_TAG_YELLOW;
                     break;
 
+                case TRASH_NONE:
                 case TRASH_TOTAL:
+                    trash_texture = no_texture;
+                    trash_tag = TRASH_TAG_NONE;
                     break;
                 }
 
                 trash_array[trash_count] =
                     init_trash(player_world_pos,                      // pos
                                GetScreenToWorld2D(mouse_pos, camera), // target
-                               trash_speed,                           // speed
                                trash_texture,                         // texture
-                               TRASH_TAG_BLUE,                        // tag
+                               trash_tag,                             // tag
                                0.15f,                                 // scale
                                camera);                               // camera
 
@@ -114,6 +115,14 @@ int main(int argc, char **argv) {
         }
 
         update_trash(trash_array, &trash_count, delta_time);
+
+        for (int i = 0; i < trash_count; i++) {
+            if (trash_array[i].tag == TRASH_TAG_RED) {
+                if (check_collision_trash(trash_array[i], red_trash_can)) {
+                    printf("red trash collision!\n");
+                }
+            }
+        }
 
         BeginDrawing();
         {
@@ -129,6 +138,8 @@ int main(int argc, char **argv) {
 
             draw_player(player);
             draw_trash(trash_array, trash_count, camera);
+
+            DrawRectangleRec(red_trash_can, RED);
 
             /*DrawRectangleV(player.position, (Vector2){50, 50}, RED);*/
 
