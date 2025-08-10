@@ -14,30 +14,27 @@ typedef enum {
 
 typedef struct Player {
 
-        Texture2D texture;
-        Vector2 position;
-        Vector2 origin;
-        int frame_width;
-        int frame_height;
-        int current_frame;
-        int total_frames;
-        float frame_counter;
-        float frame_time;
-        float scale;
-        float angle;
-        float speed;
-        TrashType current_trash_type;
+    Texture2D texture;
+    Vector2 position;
+    Vector2 origin;
+    int frame_width;
+    int frame_height;
+    int current_frame;
+    int total_frames;
+    float frame_counter;
+    float frame_time;
+    float scale;
+    float angle;
+    float speed;
+    TrashType current_trash_type;
 
 } Player;
 
-Player init_player(const char *texture_path,
-                   int total_frames,
-                   Vector2 position,
-                   float scale,
-                   float frame_time,
-                   float speed);
+Player init_player(const char *texture_path, int total_frames, Vector2 position,
+                   float scale, float frame_time, float speed);
 
-void update_player(Player *player, float delta_time, Vector2 mouse_pos, Camera2D *camera);
+void update_player(Player *player, float delta_time, Vector2 mouse_pos,
+                   Camera2D *camera);
 
 void animate_player(Player *player, float delta_time);
 

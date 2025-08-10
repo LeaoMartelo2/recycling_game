@@ -4,6 +4,8 @@
 #include "player.h"
 #include <raylib.h>
 
+#define MAX_TRASH 100
+
 typedef enum {
     TRASH_TAG_BLUE,
     TRASH_TAG_GREEN,
@@ -39,6 +41,11 @@ void draw_trash(Trash trash_array[],
                 Camera2D camera);
 
 void handle_global_trash_count();
+
+void handle_trash_collision(Trash trash_array[], int *trash_count, Rectangle blue_trashcan,
+                            Rectangle green_trashcan,
+                            Rectangle red_trashcan,
+                            Rectangle yellow_trashcan);
 
 bool check_collision_trash(Trash trash, Rectangle other);
 

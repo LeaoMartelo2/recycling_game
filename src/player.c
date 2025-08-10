@@ -2,7 +2,12 @@
 #include <math.h>
 #include <raylib.h>
 
-Player init_player(const char *texture_path, int total_frames, Vector2 position, float scale, float frame_time, float speed) {
+Player init_player(const char *texture_path,
+                   int total_frames,
+                   Vector2 position,
+                   float scale,
+                   float frame_time,
+                   float speed) {
 
     Player player;
     player.texture = LoadTexture(texture_path);
@@ -101,13 +106,5 @@ void draw_player(Player player) {
         player.frame_height * player.scale,
     };
 
-    DrawTexturePro(
-        player.texture,
-        frame_rect,
-        dest_rect,
-        (Vector2){
-            player.origin.x * player.scale,
-            player.origin.y * player.scale},
-        player.angle,
-        WHITE);
+    DrawTexturePro(player.texture, frame_rect, dest_rect, (Vector2){player.origin.x * player.scale, player.origin.y * player.scale}, player.angle, WHITE);
 }

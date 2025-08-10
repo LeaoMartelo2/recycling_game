@@ -96,3 +96,31 @@ void handle_global_trash_count() {
 bool check_collision_trash(Trash trash, Rectangle other) {
     return CheckCollisionRecs(trash.target_rectangle, other);
 }
+
+void handle_trash_collision(Trash *trash_array,
+                            int *trash_count,
+                            Rectangle blue_trashcan,
+                            Rectangle green_trashcan,
+                            Rectangle red_trashcan,
+                            Rectangle yellow_trashcan) {
+
+    for (int i = 0; i < *trash_count; i++) {
+        switch (trash_array[i].tag) {
+
+        case TRASH_TAG_BLUE:
+            if (check_collision_trash(trash_array[i], blue_trashcan)) {
+                // delete blue trash
+                for (int j = i; j < *trash_count - 1; j++) {
+                    trash_array[j] = trash_array[j + 1];
+                }
+                (*trash_count)--;
+                i++;
+            }
+            break;
+
+        case TRASH_TAG_GREEN:
+            if (check_collision_trash(trash_array[i], green_trashcan)) {
+            }
+        }
+    }
+}

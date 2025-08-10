@@ -6,8 +6,6 @@
 
 #define WINDOW_SIZE_FACTOR 75.0f
 
-#define MAX_TRASH 100
-
 float screen_width;
 float screen_height;
 
@@ -31,7 +29,7 @@ int main(int argc, char **argv) {
     Texture2D green_trash = LoadTexture("src/assets/sprites/icons/green.png");
     Texture2D red_trash = LoadTexture("src/assets/sprites/icons/red.png");
     Texture2D yellow_trash = LoadTexture("src/assets/sprites/icons/yellow.png");
-    Texture2D no_texture;
+    Texture2D no_texture = {0};
 
     Trash trash_array[MAX_TRASH];
     int trash_count = 0;
@@ -101,13 +99,12 @@ int main(int argc, char **argv) {
                     break;
                 }
 
-                trash_array[trash_count] =
-                    init_trash(player_world_pos,                      // pos
-                               GetScreenToWorld2D(mouse_pos, camera), // target
-                               trash_texture,                         // texture
-                               trash_tag,                             // tag
-                               0.15f,                                 // scale
-                               camera);                               // camera
+                trash_array[trash_count] = init_trash(player_world_pos,                      // pos
+                                                      GetScreenToWorld2D(mouse_pos, camera), // target
+                                                      trash_texture,                         // texture
+                                                      trash_tag,                             // tag
+                                                      0.15f,                                 // scale
+                                                      camera);                               // camera
 
                 trash_count++;
                 /*global_trash_count++;*/
@@ -130,11 +127,10 @@ int main(int argc, char **argv) {
 
             BeginMode2D(camera);
 
-            DrawTextureEx(background,
-                          (Vector2){25, 0}, // pos
-                          0,                // rotation
-                          0.2,              // scale
-                          WHITE);           // tint
+            DrawTextureEx(background, (Vector2){25, 0}, // pos
+                          0,                            // rotation
+                          0.2,                          // scale
+                          WHITE);                       // tint
 
             draw_player(player);
             draw_trash(trash_array, trash_count, camera);
@@ -151,16 +147,13 @@ int main(int argc, char **argv) {
 
                 DrawFPS(2, 2);
 
-                DrawText(TextFormat("Player:\nX: %f\nY: %f", player.position.x, player.position.y),
-                         30, 30, font_size, debug_color);
+                DrawText(TextFormat("Player:\nX: %f\nY: %f", player.position.x, player.position.y), 30, 30, font_size, debug_color);
 
-                DrawText(TextFormat("mouse position:\nX: %f\nY: %f", mouse_pos.x, mouse_pos.y),
-                         30, 100, font_size, debug_color);
+                DrawText(TextFormat("mouse position:\nX: %f\nY: %f", mouse_pos.x, mouse_pos.y), 30, 100, font_size, debug_color);
 
                 Vector2 mouse_worldpos = GetScreenToWorld2D(mouse_pos, camera);
 
-                DrawText(TextFormat("mouse world_pos:\nX: %f\nY: %f", mouse_worldpos.x, mouse_worldpos.y),
-                         30, 170, font_size, debug_color);
+                DrawText(TextFormat("mouse world_pos:\nX: %f\nY: %f", mouse_worldpos.x, mouse_worldpos.y), 30, 170, font_size, debug_color);
             }
         }
         EndDrawing();
